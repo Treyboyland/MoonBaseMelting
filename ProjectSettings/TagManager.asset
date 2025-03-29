@@ -50,5 +50,8 @@ TagManager:
   - name: Ooze Particle
     uniqueID: 583181747
     locked: 0
+  - name: Selector
+    uniqueID: 1177318731
+    locked: 0
   m_RenderingLayers:
   - Default

@@ -49,8 +49,10 @@ MonoBehaviour:
   animator: {fileID: 3714207831843615128}
   player: {fileID: 9100000, guid: e7e71f83d6d16a84ea8f6c2c66b18bbd, type: 2}
   enemy: {fileID: 22100000, guid: 57eaee15cd406ec459cb8d3f9fb57649, type: 2}
-  locationIndex: 0
+  locationIndex: -1
   isPlayer: 0
+  secondsToMove: 0.5
+  onMoveToIndex: {fileID: 11400000, guid: 9bf5e620c6751f747933ebd2edc4f508, type: 2}
 --- !u!212 &2564974429860347347
 SpriteRenderer:
   m_ObjectHideFlags: 0

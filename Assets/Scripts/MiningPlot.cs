@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class MiningPlot : MonoBehaviour
+public class MiningPlot : CoordinateHaver
 {
     [SerializeField]
     List<MineLocation> locations = new List<MineLocation>();
+
+    [SerializeField]
+    List<CoordinateHaver> plotCoordinates;
 
     [SerializeField]
     ParticleSystem coverParticle;
@@ -16,13 +19,6 @@ public class MiningPlot : MonoBehaviour
 
     public int LocationIndex => locationIndex;
 
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -44,6 +40,34 @@ public class MiningPlot : MonoBehaviour
         }
 
         return true;
+    }
+
+    public List<int> GetSlimedLocations()
+    {
+        List<int> toReturn = new List<int>();
+        foreach (var location in locations)
+        {
+            if (location.HasSlime)
+            {
+                toReturn.Add(location.LocationIndex);
+            }
+        }
+
+        return toReturn;
+    }
+
+    public List<int> GetNotSlimedLocations()
+    {
+        List<int> toReturn = new List<int>();
+        foreach (var location in locations)
+        {
+            if (!location.HasSlime)
+            {
+                toReturn.Add(location.LocationIndex);
+            }
+        }
+
+        return toReturn;
     }
 
     public static List<int> GetAdjacentMiningPlots(int locationIndex)
@@ -118,5 +142,59 @@ public class MiningPlot : MonoBehaviour
     public void PlaceOozeAtLocation(int index)
     {
         Cascade(index, new List<int>());
+    }
+
+
+    public Bounds GetBoundsOfCoordinate(Vector2Int coord)
+    {
+        var coordObj = plotCoordinates.Where(x => x.Coordinates == coord).First();
+        var renderer = coordObj.gameObject.GetComponent<Renderer>();
+
+        return renderer.bounds;
+    }
+
+    public MineLocation GetMineLocationAtCoordinate(Vector2Int coord)
+    {
+        return plotCoordinates.Where(x => x.Coordinates == coord).First().GetComponent<MineLocation>();
+    }
+
+    public MineLocation GetMinLocationAtLocationIndex(int index)
+    {
+        return locations.Where(x => x.LocationIndex == index).First();
+    }
+
+    public Bounds GetBounds()
+    {
+        Vector3 max = new Vector3(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
+        Vector3 min = new Vector3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
+
+        var bounds = plotCoordinates.Select(x => x.GetComponent<Renderer>().bounds);
+
+        Vector3 center = Vector3.zero;
+
+        foreach (var bound in bounds)
+        {
+            center += bound.center;
+
+            max.x = Mathf.Max(max.x, bound.max.x);
+            max.y = Mathf.Max(max.y, bound.max.y);
+            max.z = Mathf.Max(max.z, bound.max.z);
+
+            min.x = Mathf.Min(min.x, bound.min.x);
+            min.y = Mathf.Min(min.y, bound.min.y);
+            min.z = Mathf.Min(min.z, bound.min.z);
+
+
+        }
+
+        Vector3 size = max - min;
+
+        return new Bounds(center / plotCoordinates.Count, size);
+    }
+
+    public void RemoveOozeAtLocation(int chosenIndex)
+    {
+        var chosen = locations.Where(x => x.LocationIndex == chosenIndex).First();
+        chosen.HasSlime = false;
     }
 }

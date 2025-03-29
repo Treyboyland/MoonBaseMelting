@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class MineLocation : MonoBehaviour
+public class MineLocation : CoordinateHaver
 {
-    [SerializeField]
-    Vector2Int coordinates;
-
     [SerializeField]
     int locationIndex;
 
@@ -15,7 +12,7 @@ public class MineLocation : MonoBehaviour
     ParticleSystem particle;
 
     public int LocationIndex { get => locationIndex; }
-    public Vector2Int Coordinates { get => coordinates; }
+
     public bool HasSlime
     {
         get => hasSlime;

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MiningPump : MonoBehaviour
@@ -17,7 +18,22 @@ public class MiningPump : MonoBehaviour
     [SerializeField]
     bool isPlayer;
 
-    public int LocationIndex { get => locationIndex; set => locationIndex = value; }
+    [SerializeField]
+    float secondsToMove;
+
+    [SerializeField]
+    GameEventGeneric<PumpAndDestinationIndex> onMoveToIndex;
+
+    public int LocationIndex
+    {
+        get => locationIndex;
+        set
+        {
+            locationIndex = value;
+            onMoveToIndex.Invoke(new PumpAndDestinationIndex() { Pump = this, DestinationIndex = locationIndex });
+        }
+    }
+    public bool IsPlayer { get => isPlayer; }
 
 
 
@@ -31,6 +47,25 @@ public class MiningPump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool("IsPumping", locationIndex <= 0);
+        animator.SetBool("IsPumping", locationIndex > 0);
+    }
+
+    public void MoveToLocation(Vector3 newPos)
+    {
+        StopAllCoroutines();
+        StartCoroutine(MovementOverTime(newPos));
+    }
+
+    IEnumerator MovementOverTime(Vector3 newPos)
+    {
+        float elapsed = 0;
+        Vector3 startPos = transform.position;
+        while (elapsed < secondsToMove)
+        {
+            elapsed += Time.deltaTime;
+            transform.position = Vector3.Lerp(startPos, newPos, elapsed / secondsToMove);
+            yield return null;
+        }
+        transform.position = newPos;
     }
 }
