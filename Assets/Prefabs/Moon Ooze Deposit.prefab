@@ -290,6 +290,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6651585525573499937, guid: c394c6329dff23b4aa6c8ee366e7ac19, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6651585525573499937, guid: c394c6329dff23b4aa6c8ee366e7ac19, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 736550371
+      objectReference: {fileID: 0}
     - target: {fileID: 8328448774109364187, guid: c394c6329dff23b4aa6c8ee366e7ac19, type: 3}
       propertyPath: m_Name
       value: Ooze Particle Deposit

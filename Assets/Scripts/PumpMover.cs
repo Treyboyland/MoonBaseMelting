@@ -9,8 +9,16 @@ public class PumpMover : MonoBehaviour
 
     public void MovePump(PumpAndDestinationIndex pumpData)
     {
-        var destLoc = manager.MiningPlots.Where(x => x.LocationIndex == pumpData.DestinationIndex).First();
-        pumpData.Pump.MoveToLocation(destLoc.GetBoundsOfCoordinate(Vector2Int.zero).center);
+        if (pumpData.DestinationIndex == -1)
+        {
+            pumpData.Pump.MoveToStartingLocation();
+        }
+        else
+        {
+            var destLoc = manager.MiningPlots.Where(x => x.LocationIndex == pumpData.DestinationIndex).First();
+            pumpData.Pump.MoveToLocation(destLoc.GetBoundsOfCoordinate(Vector2Int.zero).center);
+        }
+
     }
 
 }

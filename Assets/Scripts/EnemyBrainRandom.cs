@@ -20,6 +20,11 @@ public class EnemyBrainRandom : EnemyBrain
                 var chosenPump = moveablePumps.GetRandomItem();
                 chosenPump.LocationIndex = chosenLoc.LocationIndex;
             }
+            else
+            {
+                var chosenPump = moveablePumps.GetRandomItem();
+                chosenPump.LocationIndex = -1;
+            }
         }
     }
 

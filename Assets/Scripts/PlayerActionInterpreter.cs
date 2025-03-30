@@ -158,8 +158,11 @@ public class PlayerActionInterpreter : MonoBehaviour
             else
             {
                 var plot = manager.MiningPlots.Where(x => x.LocationIndex == plotSelectionIndex).First();
+                bool isValid = manager.IsPumpAtLocation(plotSelectionIndex)
+                    && manager.PlayerPumps.Where(x => x.LocationIndex == plotSelectionIndex).Any()
+                    && !manager.MiningPlots.Where(x => x.LocationIndex == plotSelectionIndex).First().AreAllFull();
                 var mine = plot.GetMinLocationAtLocationIndex(mineLocationIndex);
-                if (mine.HasSlime)
+                if (mine.HasSlime && isValid)
                 {
                     mine.HasSlime = false;
                     manager.HasPlayerMadeSelection = true;

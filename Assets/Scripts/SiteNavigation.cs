@@ -119,6 +119,11 @@ public class SiteNavigation : MonoBehaviour
                 {
                     onPlotSelected.Invoke(-1);
                 }
+                else
+                {
+                    var plot = plots.Where(x => x.Coordinates == plotLocation).First().GetComponent<MiningPlot>();
+                    onPlotSelected.Invoke(plot.LocationIndex);
+                }
 
                 currentlySelectingPlot = false;
                 mineLocation = Vector2Int.zero;

@@ -44,11 +44,14 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ooze Particle
+    uniqueID: 583181747
+    locked: 0
   - name: Mine
     uniqueID: 2747436143
     locked: 0
-  - name: Ooze Particle
-    uniqueID: 583181747
+  - name: Ooze Particle Plot
+    uniqueID: 736550371
     locked: 0
   - name: Selector
     uniqueID: 1177318731

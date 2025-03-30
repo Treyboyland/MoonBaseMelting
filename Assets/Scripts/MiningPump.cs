@@ -36,12 +36,13 @@ public class MiningPump : MonoBehaviour
     public bool IsPlayer { get => isPlayer; }
 
 
-
+    Vector3 startingPos;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator.runtimeAnimatorController = isPlayer ? player : enemy;
+        startingPos = transform.position;
     }
 
     // Update is called once per frame
@@ -54,6 +55,11 @@ public class MiningPump : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(MovementOverTime(newPos));
+    }
+
+    public void MoveToStartingLocation()
+    {
+        MoveToLocation(startingPos);
     }
 
     IEnumerator MovementOverTime(Vector3 newPos)

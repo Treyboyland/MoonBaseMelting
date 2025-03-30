@@ -22,5 +22,10 @@ public static class HelperFunctions
             items[chosenIndex] = items[i];
             items[i] = temp;
         }
-    }   
+    }
+
+    public static float Randomize(this Vector2 vector)
+    {
+        return UnityEngine.Random.Range(vector.x, vector.y);
+    }
 }

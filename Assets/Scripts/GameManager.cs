@@ -74,10 +74,42 @@ public class GameManager : MonoBehaviour
             hasUserMadeSelection = false;
             while (!hasUserMadeSelection)
             {
+                if (!PlayerHasValidMove())
+                {
+                    break;
+                }
                 yield return null;
             }
             hasUserMadeSelection = false;
         }
+    }
+
+    private bool PlayerHasValidMove()
+    {
+        if (currentState == moveState)
+        {
+            var pumpIndicesOut = playerPumps.Select(x => x.LocationIndex).Where(x => x != -1);
+            var pumpIndicesHub = playerPumps.Select(x => x.LocationIndex).Where(x => x == -1);
+            var cpuIndices = cpuPumps.Select(x => x.LocationIndex).Where(x => x != -1);
+            var fullPlots = miningPlots.Where(x => x.AreAllFull()).Select(x => x.LocationIndex);
+            return pumpIndicesOut.Where(x => !fullPlots.Contains(x)).Any() || //Out pumps can always move to base
+                (fullPlots.Union(cpuIndices).Count() < 8 && pumpIndicesHub.Count() != 0); //Pump at base can move out
+        }
+        if (currentState == generateState)
+        {
+            return false;
+        }
+        if (currentState == placeState)
+        {
+            var fullPlots = miningPlots.Where(x => x.AreAllFull());
+            return fullPlots.Count() < miningPlots.Count;
+        }
+        if (currentState == removeState)
+        {
+            var pumpIndices = playerPumps.Select(x => x.LocationIndex);
+            return miningPlots.Where(x => pumpIndices.Contains(x.LocationIndex) && !x.AreAllFull()).Any();
+        }
+        return false;
     }
 
     IEnumerator GameSteps(bool playerFirst)
@@ -149,7 +181,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsPumpAtLocation(int plotLocationIndex)
     {
-        return playerPumps.Where(x=> x.LocationIndex == plotLocationIndex).Any() 
-            || cpuPumps.Where(x=> x.LocationIndex == plotLocationIndex).Any();
+        return playerPumps.Where(x => x.LocationIndex == plotLocationIndex).Any()
+            || cpuPumps.Where(x => x.LocationIndex == plotLocationIndex).Any();
     }
 }
