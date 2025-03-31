@@ -106,7 +106,7 @@ public class OozeSpread : MonoBehaviour
         }
         else
         {
-            chosenLoc.PlaceOozeAtRandomLocation();
+            chosenLoc.PlaceOozeAtRandomLocation(true);
             return true;
         }
     }

@@ -63,7 +63,7 @@ public class UserControl : MonoBehaviour
 
     public void HandleSelection(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton())
+        if (context.performed)
         {
             selectionEvent.Invoke();
         }
@@ -71,7 +71,7 @@ public class UserControl : MonoBehaviour
 
     public void HandleCancel(InputAction.CallbackContext context)
     {
-        if (context.ReadValueAsButton())
+        if (context.performed)
         {
             cancelEvent.Invoke();
         }

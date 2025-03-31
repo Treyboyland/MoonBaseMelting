@@ -34,7 +34,7 @@ public class MiningPump : MonoBehaviour
         }
     }
     public bool IsPlayer { get => isPlayer; }
-
+    public Vector3 StartingPos { get => startingPos; }
 
     Vector3 startingPos;
 
@@ -73,5 +73,10 @@ public class MiningPump : MonoBehaviour
             yield return null;
         }
         transform.position = newPos;
+    }
+
+    public Bounds GetBoundsOfStartingLocation()
+    {
+        return new Bounds() { size = GetComponent<Renderer>().bounds.size, center = startingPos };
     }
 }

@@ -7,7 +7,11 @@ public class EnemyBrainRandom : EnemyBrain
 {
     public override void DetermineMoveAction(List<MiningPlot> plots, List<MiningPump> cpuPumps, List<MiningPump> playerPumps)
     {
-        var moveablePumps = cpuPumps.Where(x => x.LocationIndex == -1).ToList();
+        //Prioritize getting pumps out, and then moving them around
+        var fullPlotIndices = plots.Where(x => x.AreAllFull()).Select(x => x.LocationIndex);
+        var moveablePumps = cpuPumps.Where(x => x.LocationIndex == -1).Any()
+            ? cpuPumps.Where(x => x.LocationIndex == -1).ToList()
+            : cpuPumps.Where(x => !fullPlotIndices.Contains(x.LocationIndex)).ToList();
         if (moveablePumps.Count != 0)
         {
             var allPumps = new List<MiningPump>();
@@ -19,11 +23,13 @@ public class EnemyBrainRandom : EnemyBrain
                 var chosenLoc = potentialLocations.GetRandomItem();
                 var chosenPump = moveablePumps.GetRandomItem();
                 chosenPump.LocationIndex = chosenLoc.LocationIndex;
+                onHighlightMove.Invoke(chosenLoc.GetBounds());
             }
             else
             {
                 var chosenPump = moveablePumps.GetRandomItem();
                 chosenPump.LocationIndex = -1;
+                onHighlightMove.Invoke(chosenPump.GetBoundsOfStartingLocation());
             }
         }
     }
@@ -64,6 +70,7 @@ public class EnemyBrainRandom : EnemyBrain
             var plotSelected = chosenPlot.GetRandomItem();
             var chosenIndex = plotSelected.GetNotSlimedLocations().GetRandomItem();
             plotSelected.PlaceOozeAtLocation(chosenIndex);
+            onHighlightMove.Invoke(plotSelected.GetBoundsOfLocationIndex(chosenIndex));
             return;
         }
     }
@@ -71,14 +78,14 @@ public class EnemyBrainRandom : EnemyBrain
     public override void DetermineOozeRemovalAction(List<MiningPlot> plots, List<MiningPump> cpuPumps, List<MiningPump> playerPumps)
     {
         var cpuIndices = cpuPumps.Select(x => x.LocationIndex).ToList();
-        var cpuPlots = plots.Where(x => cpuIndices.Contains(x.LocationIndex) && !x.AreAllFull()).ToList();
-
+        var cpuPlots = plots.Where(x => cpuIndices.Contains(x.LocationIndex) && !x.AreAllFull() && x.GetSlimedLocations().Count > 0).ToList();
 
         if (cpuPlots.Count != 0)
         {
             var plotSelected = cpuPlots.GetRandomItem();
             var chosenIndex = plotSelected.GetSlimedLocations().GetRandomItem();
             plotSelected.RemoveOozeAtLocation(chosenIndex);
+            onHighlightMove.Invoke(plotSelected.GetBoundsOfLocationIndex(chosenIndex));
             return;
         }
     }

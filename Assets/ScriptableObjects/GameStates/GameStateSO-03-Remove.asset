@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GameStateSO-03-Remove
   m_EditorClassIdentifier: 
   stateName: Remove
-  description: Drain the ooze
+  description: Drain the <color=green>Ooze</color>

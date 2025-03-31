@@ -16,7 +16,7 @@ public class PlayerActionInterpreter : MonoBehaviour
     GameEvent validMoveSound;
 
     [SerializeField]
-    GameEvent invalidMoveSound;
+    GameEventGeneric<string> invalidMoveSound;
 
     int plotSelectionIndex = int.MinValue;
 
@@ -65,7 +65,20 @@ public class PlayerActionInterpreter : MonoBehaviour
             }
             else
             {
-                invalidMoveSound.Invoke();
+                string invalidString;
+                if (!playerPumpsAtLocation)
+                {
+                    invalidString = "You don't have a pump there";
+                }
+                else if (!plotCheckPassed)
+                {
+                    invalidString = "This pump has been consumed";
+                }
+                else
+                {
+                    invalidString = "This move is invalid";
+                }
+                invalidMoveSound.Invoke(invalidString);
             }
         }
         else
@@ -73,7 +86,7 @@ public class PlayerActionInterpreter : MonoBehaviour
             //Valid move if this is not the same as the first location, and the destination is empty
             if (plotSelectionIndex == plotLocationIndex)
             {
-                invalidMoveSound.Invoke();
+                invalidMoveSound.Invoke("You have selected the same position");
             }
             else if (plotLocationIndex == -1)
             {
@@ -94,7 +107,8 @@ public class PlayerActionInterpreter : MonoBehaviour
                 }
                 else
                 {
-                    invalidMoveSound.Invoke();
+                    invalidMoveSound.Invoke(manager.IsPumpAtLocation(plotLocationIndex) ?
+                        "There is already a pump there" : "The ooze has consumed this location");
                 }
             }
         }
@@ -103,15 +117,27 @@ public class PlayerActionInterpreter : MonoBehaviour
 
     public void HandlePlotSelection(int plotLocationIndex)
     {
+        if (!manager.WaitingForUserSelection)
+        {
+            return;
+        }
         if (manager.CurrentGameState == moveState)
         {
             HandleMoveStateOptions(plotLocationIndex);
         }
-        else if (manager.CurrentGameState == removeState)
+        else if (manager.CurrentGameState == removeState || manager.CurrentGameState == placeState)
         {
             if (plotLocationIndex == -1)
             {
-                invalidMoveSound.Invoke();
+                if (manager.CurrentGameState == removeState)
+                {
+                    invalidMoveSound.Invoke("The center base does not have ooze");
+                }
+                else
+                {
+                    invalidMoveSound.Invoke("The center base cannot have ooze");
+                }
+                navigation.CancelSelection();
             }
             else
             {
@@ -126,19 +152,42 @@ public class PlayerActionInterpreter : MonoBehaviour
 
     public void HandleMineSelection(int mineLocationIndex)
     {
+        if (!manager.WaitingForUserSelection)
+        {
+            return;
+        }
         if (manager.CurrentGameState == placeState)
         {
             if (plotSelectionIndex == -1)
             {
-                invalidMoveSound.Invoke();
+                invalidMoveSound.Invoke("The central base cannot have ooze");
             }
             else
             {
+                if (mineLocationIndex == -1)
+                {
+                    bool placedCpu = manager.CpuPumps.Where(x => x.LocationIndex == plotSelectionIndex).Any();
+                    bool placedPlayer = manager.PlayerPumps.Where(x => x.LocationIndex == plotSelectionIndex).Any();
+                    if (placedCpu)
+                    {
+                        invalidMoveSound.Invoke("You need more ooze to halt a pump");
+                    }
+                    else if (placedPlayer)
+                    {
+                        invalidMoveSound.Invoke("Are you sure you want to do that?");
+                    }
+                    else
+                    {
+                        invalidMoveSound.Invoke("Ooze pools already have ooze");
+                    }
+
+                    return;
+                }
                 var plot = manager.MiningPlots.Where(x => x.LocationIndex == plotSelectionIndex).First();
                 var mine = plot.GetMinLocationAtLocationIndex(mineLocationIndex);
                 if (mine.HasSlime)
                 {
-                    invalidMoveSound.Invoke();
+                    invalidMoveSound.Invoke("The ooze has already consumed this spot");
                 }
                 else
                 {
@@ -153,10 +202,15 @@ public class PlayerActionInterpreter : MonoBehaviour
         {
             if (plotSelectionIndex == -1)
             {
-                invalidMoveSound.Invoke();
+                invalidMoveSound.Invoke("There is no ooze on the central base");
             }
             else
             {
+                if (mineLocationIndex == -1)
+                {
+                    invalidMoveSound.Invoke("Leave the pools to the pumps");
+                    return;
+                }
                 var plot = manager.MiningPlots.Where(x => x.LocationIndex == plotSelectionIndex).First();
                 bool isValid = manager.IsPumpAtLocation(plotSelectionIndex)
                     && manager.PlayerPumps.Where(x => x.LocationIndex == plotSelectionIndex).Any()
@@ -165,13 +219,15 @@ public class PlayerActionInterpreter : MonoBehaviour
                 if (mine.HasSlime && isValid)
                 {
                     mine.HasSlime = false;
-                    manager.HasPlayerMadeSelection = true;
                     validMoveSound.Invoke();
                     manager.HasPlayerMadeSelection = true;
+                    //Prevents player from having selected plot for move
+                    navigation.CancelSelection();
+                    navigation.CancelSelection();
                 }
                 else
                 {
-                    invalidMoveSound.Invoke();
+                    invalidMoveSound.Invoke(!isValid ? "You can only remove ooze from plots where you have a pump" : "There is no ooze here");
                 }
             }
         }

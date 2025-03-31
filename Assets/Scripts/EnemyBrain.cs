@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class EnemyBrain : ScriptableObject
 {
+    [SerializeField]
+    protected GameEventGeneric<Bounds> onHighlightMove;
+
     public List<MiningPlot> GetEmptyPlots(List<MiningPlot> plots, List<MiningPump> pumps)
     {
         var pumpIndices = pumps.Select(x => x.LocationIndex).ToList();

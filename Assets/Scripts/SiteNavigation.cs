@@ -22,6 +22,8 @@ public class SiteNavigation : MonoBehaviour
     [SerializeField]
     GameEvent onCancelPlotSelection;
 
+    [SerializeField]
+    GameEvent onPlayMoveSound;
 
     Vector2Int plotLocation = Vector2Int.zero;
 
@@ -42,16 +44,25 @@ public class SiteNavigation : MonoBehaviour
     {
         if (currentlySelectingPlot)
         {
-
+            var init = plotLocation;
             plotLocation += movementDirection;
             //Would probably be better to calculate this...
             plotLocation = Vector2Int.Max(Vector2Int.Min(new Vector2Int(1, 1), plotLocation), new Vector2Int(-1, -1));
+            if (init != plotLocation)
+            {
+                onPlayMoveSound.Invoke();
+            }
             UpdatePlotSelection();
         }
         else
         {
+            var init = mineLocation;
             mineLocation += movementDirection;
             mineLocation = Vector2Int.Max(Vector2Int.Min(new Vector2Int(1, 1), mineLocation), new Vector2Int(-1, -1));
+            if (init != mineLocation)
+            {
+                onPlayMoveSound.Invoke();
+            }
             UpdateMineSelection();
         }
     }
@@ -123,11 +134,10 @@ public class SiteNavigation : MonoBehaviour
                 {
                     var plot = plots.Where(x => x.Coordinates == plotLocation).First().GetComponent<MiningPlot>();
                     onPlotSelected.Invoke(plot.LocationIndex);
+                    currentlySelectingPlot = false;
+                    mineLocation = Vector2Int.zero;
+                    UpdateMineSelection();
                 }
-
-                currentlySelectingPlot = false;
-                mineLocation = Vector2Int.zero;
-                UpdateMineSelection();
             }
         }
         else

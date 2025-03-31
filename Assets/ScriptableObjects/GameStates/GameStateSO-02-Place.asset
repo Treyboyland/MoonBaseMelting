@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: GameStateSO-02-Place
   m_EditorClassIdentifier: 
   stateName: Place
-  description: Create more ooze
+  description: Create more <color=green>Ooze</color>

@@ -9,7 +9,7 @@ public class MineLocation : CoordinateHaver
     bool hasSlime;
 
     [SerializeField]
-    ParticleSystem particle;
+    ParticleAccelerator particle;
 
     public int LocationIndex { get => locationIndex; }
 
@@ -19,13 +19,15 @@ public class MineLocation : CoordinateHaver
         set
         {
             hasSlime = value;
-            if (!hasSlime && particle.isPlaying)
+            if (!hasSlime && particle.Particle.isPlaying)
             {
-                particle.Stop();
+                particle.Particle.Stop();
+                particle.Accelerate();
             }
-            else if (hasSlime && !particle.isPlaying)
+            else if (hasSlime && !particle.Particle.isPlaying)
             {
-                particle.Play();
+                particle.Particle.Play();
+                particle.Accelerate();
             }
         }
     }

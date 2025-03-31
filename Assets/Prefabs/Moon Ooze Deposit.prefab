@@ -76,6 +76,7 @@ MonoBehaviour:
   - {fileID: 1558875519728100059}
   coverParticle: {fileID: 3992219071802977611}
   locationIndex: 0
+  onSlimePlaced: {fileID: 11400000, guid: 1b7e3695b6827f542a0d76dc640565a2, type: 2}
 --- !u!1001 &911515849345134527
 PrefabInstance:
   m_ObjectHideFlags: 0

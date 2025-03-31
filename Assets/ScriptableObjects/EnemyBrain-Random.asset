@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0722ca0828c7934c98e11342fed5a27, type: 3}
   m_Name: EnemyBrain-Random
   m_EditorClassIdentifier: 
+  onHighlightMove: {fileID: 11400000, guid: db35883d0e40db74f99bbe082d1967c3, type: 2}

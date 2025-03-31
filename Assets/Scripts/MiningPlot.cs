@@ -19,6 +19,9 @@ public class MiningPlot : CoordinateHaver
 
     public int LocationIndex => locationIndex;
 
+    [SerializeField]
+    GameEventGeneric<Bounds> onSlimePlaced;
+
 
     // Update is called once per frame
     void Update()
@@ -100,7 +103,7 @@ public class MiningPlot : CoordinateHaver
         }
     }
 
-    bool Cascade(int index, List<int> alreadyCheckedPlots)
+    bool Cascade(int index, List<int> alreadyCheckedPlots, bool fireEvent = false)
     {
         if (AreAllFull())
         {
@@ -121,7 +124,7 @@ public class MiningPlot : CoordinateHaver
             {
                 if (!alreadyCheckedPlots.Contains(pos))
                 {
-                    oozePlaced |= Cascade(pos, alreadyCheckedPlots);
+                    oozePlaced |= Cascade(pos, alreadyCheckedPlots, fireEvent);
                 }
             }
             return oozePlaced;
@@ -129,19 +132,23 @@ public class MiningPlot : CoordinateHaver
         else
         {
             chosenLoc.HasSlime = true;
+            if (fireEvent)
+            {
+                onSlimePlaced.Invoke(GetBoundsOfLocationIndex(chosenLoc.LocationIndex));
+            }
             return true;
         }
     }
 
-    public void PlaceOozeAtRandomLocation()
+    public void PlaceOozeAtRandomLocation(bool shouldFireEvent = false)
     {
         int chosenIndex = UnityEngine.Random.Range(1, 9);
-        Cascade(chosenIndex, new List<int>());
+        Cascade(chosenIndex, new List<int>(), shouldFireEvent);
     }
 
-    public void PlaceOozeAtLocation(int index)
+    public void PlaceOozeAtLocation(int index, bool shouldFireEvent = false)
     {
-        Cascade(index, new List<int>());
+        Cascade(index, new List<int>(), shouldFireEvent);
     }
 
 
@@ -151,6 +158,15 @@ public class MiningPlot : CoordinateHaver
         var renderer = coordObj.gameObject.GetComponent<Renderer>();
 
         return renderer.bounds;
+    }
+
+    public Bounds GetBoundsOfLocationIndex(int index)
+    {
+        if (index == -1)
+        {
+            return GetBoundsOfCoordinate(Vector2Int.zero);
+        }
+        return locations.Where(x => x.LocationIndex == index).First().GetComponent<Renderer>().bounds;
     }
 
     public MineLocation GetMineLocationAtCoordinate(Vector2Int coord)

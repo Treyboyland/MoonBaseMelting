@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     List<MiningPump> cpuPumps;
 
+    [SerializeField]
+    float secondsBetweenMoves;
+
     bool playerFirst;
 
     [SerializeField]
@@ -37,11 +40,15 @@ public class GameManager : MonoBehaviour
     bool hasUserMadeSelection = false;
     bool endGameStarted = false;
 
+    bool waitingForUserSelection = false;
+
     public GameStateSO CurrentGameState { get => currentState; }
 
     public bool HasPlayerMadeSelection { get => hasUserMadeSelection; set => hasUserMadeSelection = value; }
+    public bool WaitingForUserSelection { get => waitingForUserSelection; set => waitingForUserSelection = value; }
     public List<MiningPump> PlayerPumps { get => playerPumps; }
     public List<MiningPlot> MiningPlots { get => miningPlots; }
+    public List<MiningPump> CpuPumps { get => cpuPumps; }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -69,6 +76,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator WaitForUserSelection(int timesToWait)
     {
+        waitingForUserSelection = true;
         for (int i = 0; i < timesToWait; i++)
         {
             hasUserMadeSelection = false;
@@ -76,12 +84,14 @@ public class GameManager : MonoBehaviour
             {
                 if (!PlayerHasValidMove())
                 {
+                    waitingForUserSelection = false;
                     break;
                 }
                 yield return null;
             }
             hasUserMadeSelection = false;
         }
+        waitingForUserSelection = false;
     }
 
     private bool PlayerHasValidMove()
@@ -119,12 +129,16 @@ public class GameManager : MonoBehaviour
         if (playerFirst)
         {
             yield return StartCoroutine(WaitForUserSelection(1));
+            yield return new WaitForSeconds(secondsBetweenMoves);
             brain.DetermineMoveAction(miningPlots, cpuPumps, playerPumps);
+            yield return new WaitForSeconds(secondsBetweenMoves);
         }
         else
         {
             brain.DetermineMoveAction(miningPlots, cpuPumps, playerPumps);
+            yield return new WaitForSeconds(secondsBetweenMoves);
             yield return StartCoroutine(WaitForUserSelection(1));
+            yield return new WaitForSeconds(secondsBetweenMoves);
         }
 
         //GENERATE
@@ -140,12 +154,16 @@ public class GameManager : MonoBehaviour
         if (playerFirst)
         {
             yield return WaitForUserSelection(1);
+            yield return new WaitForSeconds(secondsBetweenMoves);
             brain.DetermineOozePlacementAction(miningPlots, cpuPumps, playerPumps);
+            yield return new WaitForSeconds(secondsBetweenMoves);
         }
         else
         {
             brain.DetermineOozePlacementAction(miningPlots, cpuPumps, playerPumps);
+            yield return new WaitForSeconds(secondsBetweenMoves);
             yield return WaitForUserSelection(1);
+            yield return new WaitForSeconds(secondsBetweenMoves);
         }
 
         //REMOVE - Base instructions say *can*, I am changing that to must, I think
@@ -153,12 +171,16 @@ public class GameManager : MonoBehaviour
         if (playerFirst)
         {
             yield return WaitForUserSelection(1);
+            yield return new WaitForSeconds(secondsBetweenMoves);
             brain.DetermineOozeRemovalAction(miningPlots, cpuPumps, playerPumps);
+            yield return new WaitForSeconds(secondsBetweenMoves);
         }
         else
         {
             brain.DetermineOozeRemovalAction(miningPlots, cpuPumps, playerPumps);
+            yield return new WaitForSeconds(secondsBetweenMoves);
             yield return WaitForUserSelection(1);
+            yield return new WaitForSeconds(secondsBetweenMoves);
         }
 
     }
@@ -170,12 +192,10 @@ public class GameManager : MonoBehaviour
             yield return StartCoroutine(GameSteps(playerFirst));
             playerFirst = !playerFirst;
         }
-        Debug.LogWarning("GAME OVER");
     }
 
     void RunEndGameStuff()
     {
-        Debug.LogWarning("GAME OVER!!!");
         gameEndEvent.Invoke(oozeSpread.ArePumpsConsumed(cpuPumps));
     }
 
