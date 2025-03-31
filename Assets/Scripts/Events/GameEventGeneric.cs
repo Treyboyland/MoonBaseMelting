@@ -27,4 +27,10 @@ public class GameEventGeneric<T> : GameEvent
             listener.Response.Invoke(Value);
         }
     }
+
+    public void Invoke(T value)
+    {
+        Value = value;
+        Invoke();
+    }
 }

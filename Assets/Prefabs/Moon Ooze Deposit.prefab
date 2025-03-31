@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e33d3a4b3279d43975dcf144c5f8ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  coordinates: {x: 0, y: 0}
   locations:
   - {fileID: 5663749366498826413}
   - {fileID: 6245574190116382235}
@@ -63,8 +64,19 @@ MonoBehaviour:
   - {fileID: 6910118212617489329}
   - {fileID: 6781852822774074086}
   - {fileID: 1558875519728100059}
+  plotCoordinates:
+  - {fileID: 5663749366498826413}
+  - {fileID: 6245574190116382235}
+  - {fileID: 7466299633147399049}
+  - {fileID: 3464601346446471208}
+  - {fileID: 3433066178618337069}
+  - {fileID: 1030715068358820601}
+  - {fileID: 6910118212617489329}
+  - {fileID: 6781852822774074086}
+  - {fileID: 1558875519728100059}
   coverParticle: {fileID: 3992219071802977611}
   locationIndex: 0
+  onSlimePlaced: {fileID: 11400000, guid: 1b7e3695b6827f542a0d76dc640565a2, type: 2}
 --- !u!1001 &911515849345134527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73,6 +85,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 5
@@ -150,6 +166,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 8
@@ -267,6 +291,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6651585525573499937, guid: c394c6329dff23b4aa6c8ee366e7ac19, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6651585525573499937, guid: c394c6329dff23b4aa6c8ee366e7ac19, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 736550371
+      objectReference: {fileID: 0}
     - target: {fileID: 8328448774109364187, guid: c394c6329dff23b4aa6c8ee366e7ac19, type: 3}
       propertyPath: m_Name
       value: Ooze Particle Deposit
@@ -294,6 +326,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.x
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 4
@@ -420,6 +456,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 665d690ea7e0d9f449a6761b30229be1, type: 3}
+--- !u!114 &3433066178618337069 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1900104684087379776, guid: 665d690ea7e0d9f449a6761b30229be1, type: 3}
+  m_PrefabInstance: {fileID: 3889479109480390765}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4265a43593d77994ebbcadd424410c57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8555161086396143216 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4845940315548464669, guid: 665d690ea7e0d9f449a6761b30229be1, type: 3}
@@ -433,6 +480,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 1
@@ -511,6 +566,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 2
       objectReference: {fileID: 0}
@@ -587,6 +646,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 7
@@ -665,6 +728,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.x
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 6
       objectReference: {fileID: 0}
@@ -741,6 +812,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 404279277893541122}
     m_Modifications:
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
+      propertyPath: coordinates.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 210419248981437766, guid: bbe9719f601bad84886eb5c6e68b18bd, type: 3}
       propertyPath: locationIndex
       value: 3

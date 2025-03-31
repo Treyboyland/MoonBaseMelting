@@ -49,7 +49,7 @@ MonoBehaviour:
   coordinates: {x: 0, y: 0}
   locationIndex: 0
   hasSlime: 0
-  particle: {fileID: 8774481917185414002}
+  particle: {fileID: 3539013845617440736}
 --- !u!212 &7770920462596043375
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -166,13 +166,19 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6295f64092daf494da79665bdd4c03b6, type: 3}
+--- !u!114 &3539013845617440736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 122592166864602714, guid: 6295f64092daf494da79665bdd4c03b6, type: 3}
+  m_PrefabInstance: {fileID: 3507902489695531450}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc4cc2edbf3d6e54489a2fe3a05260fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &7468369387176086059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6271940716495829905, guid: 6295f64092daf494da79665bdd4c03b6, type: 3}
-  m_PrefabInstance: {fileID: 3507902489695531450}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8774481917185414002 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5290509559736984264, guid: 6295f64092daf494da79665bdd4c03b6, type: 3}
   m_PrefabInstance: {fileID: 3507902489695531450}
   m_PrefabAsset: {fileID: 0}

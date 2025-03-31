@@ -1,10 +1,7 @@
 using UnityEngine;
 
-public class MineLocation : MonoBehaviour
+public class MineLocation : CoordinateHaver
 {
-    [SerializeField]
-    Vector2Int coordinates;
-
     [SerializeField]
     int locationIndex;
 
@@ -12,23 +9,25 @@ public class MineLocation : MonoBehaviour
     bool hasSlime;
 
     [SerializeField]
-    ParticleSystem particle;
+    ParticleAccelerator particle;
 
     public int LocationIndex { get => locationIndex; }
-    public Vector2Int Coordinates { get => coordinates; }
+
     public bool HasSlime
     {
         get => hasSlime;
         set
         {
             hasSlime = value;
-            if (!hasSlime && particle.isPlaying)
+            if (!hasSlime && particle.Particle.isPlaying)
             {
-                particle.Stop();
+                particle.Particle.Stop();
+                particle.Accelerate();
             }
-            else if (hasSlime && !particle.isPlaying)
+            else if (hasSlime && !particle.Particle.isPlaying)
             {
-                particle.Play();
+                particle.Particle.Play();
+                particle.Accelerate();
             }
         }
     }

@@ -10,7 +10,8 @@ public class OozeSpread : MonoBehaviour
     [SerializeField]
     bool randomizeStartingOoze;
 
-
+    [SerializeField]
+    List<MiningPump> miningPumps;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,18 +38,49 @@ public class OozeSpread : MonoBehaviour
         return true;
     }
 
-    bool EndGame()
+    public bool ArePumpsConsumed(IEnumerable<MiningPump> pumps)
+    {
+        foreach (var pump in pumps)
+        {
+            var pumpLocation = miningPlots.Where(x => x.LocationIndex == pump.LocationIndex).FirstOrDefault();
+            if (pumpLocation == default(MiningPump)) //Pump has not been placed
+            {
+                return false;
+            }
+            if (!pumpLocation.AreAllFull()) //The ooze can still spread at this pump location
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool EitherPlayerPumpsLost()
+    {
+        var player = miningPumps.Where(x => x.IsPlayer);
+        var enemy = miningPumps.Where(x => !x.IsPlayer);
+
+        return ArePumpsConsumed(player) || ArePumpsConsumed(enemy);
+    }
+
+
+    /// <summary>
+    /// True if game should end
+    /// </summary>
+    /// <returns></returns>
+    public bool ShouldEndGame()
     {
         //TODO: Game ends when all of a player's ooze pumps have been consumed...
         //Is there a situation where both players cannot place (i.e. slime has
         // spread in such a way that their based pump cannot move?)
 
-        return AllPlotsFull();
+        return AllPlotsFull() || EitherPlayerPumpsLost();
     }
 
     bool Cascade(int index, List<int> alreadyCheckedPlots)
     {
-        if (EndGame())
+        if (ShouldEndGame())
         {
             return true;
         }
@@ -74,7 +106,7 @@ public class OozeSpread : MonoBehaviour
         }
         else
         {
-            chosenLoc.PlaceOozeAtRandomLocation();
+            chosenLoc.PlaceOozeAtRandomLocation(true);
             return true;
         }
     }
