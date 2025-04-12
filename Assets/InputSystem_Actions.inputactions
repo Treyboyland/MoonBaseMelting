@@ -606,8 +606,8 @@
                 },
                 {
                     "name": "",
-                    "id": "4316d728-8b6c-479d-9eef-68b16040431f",
-                    "path": "<XInputController>/buttonSouth",
+                    "id": "a6c1339b-f91a-49b6-84ef-26cc6cf6dadc",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -617,8 +617,8 @@
                 },
                 {
                     "name": "",
-                    "id": "075cf507-1bdc-415a-b661-c75d4a456c25",
-                    "path": "<SwitchProControllerHID>/buttonEast",
+                    "id": "05ca25a7-98d0-4983-905e-a0ea702a757a",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -634,28 +634,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a6c1339b-f91a-49b6-84ef-26cc6cf6dadc",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a68cfee4-6e98-44cd-97f8-88ef441583b0",
-                    "path": "<XInputController>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -683,8 +661,8 @@
                 },
                 {
                     "name": "",
-                    "id": "7518a2a9-24b8-47b5-bc15-7516df12fea9",
-                    "path": "<SwitchProControllerHID>/buttonSouth",
+                    "id": "8ff8ca7d-4d66-4031-9478-6a7f457be9e8",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
